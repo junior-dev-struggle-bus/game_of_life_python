@@ -94,14 +94,39 @@ def genRandomWorld(width, height):
         world.append(row_array)
     return world
 
+def ask_user_to_continue():
+    while True:
+        answer = input("would you like to continue? y/n: ")
+        if answer == "y":
+            while True:
+                answer = input("how may more cycles would you like?: ")
+                try:
+                    answer = int(answer)
+                except :
+                    print("Try a whole number.")
+                else:
+                    return answer
+        elif answer == "n":
+            print("goodbye")
+            exit()
+        else:
+            print("'y' or 'n'")
+
 def main():
         # loaded_world_array = loadTextFile('world.txt')
         loaded_world_array = genRandomWorld(100,100)
         world = init_world(loaded_world_array)
+        life_cycles = 0
+        life_cycle_limit = 100
         while True:
             displayWorld(world)
             updateWorld(world)
             sleep(.01)
             sp.call('clear',shell=True)
+            life_cycles += 1
+            if life_cycles > life_cycle_limit:
+                life_cycle_limit = ask_user_to_continue()
+                life_cycles = 0
+
 
 main()
